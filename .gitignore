@@ -1,0 +1,10 @@
+# Terraform
+output
+proxmox/.terraform
+proxmox/.terraform.lock.hcl
+proxmox/terraform.tfvars
+aws/.terraform*
+aws/output
+aws/secrets
+aws/terraform.tfvars
+aws/terraform.tfstate*
