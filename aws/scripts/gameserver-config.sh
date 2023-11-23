@@ -1,34 +1,34 @@
 #!/bin/bash
 
-#avoid apt popups
-sudo sed -i 's/#$nrconf{restart} = '"'"'i'"'"';/$nrconf{restart} = '"'"'a'"'"';/g' /etc/needrestart/needrestart.conf
-sudo sed -i "s/#\$nrconf{kernelhints} = -1;/\$nrconf{kernelhints} = -1;/g" /etc/needrestart/needrestart.conf
-
-#upgrade and install basic software
 sudo apt update && sudo apt upgrade -y
-sudo apt install python3-pip make unzip -y
+sudo apt install git ansible -y
 
-#git clone and run ./setup install
-git clone https://github.com/xzabala/ctf-gameserver.git
+git clone https://github.com/fausecteam/ctf-gameserver-ansible.git
 
-#Create and enter to virtual env (optional)
+mv playbook.yml ctf-gameserver-ansible
+
+cd ctf-gameserver-ansible
+
+sudo ansible-playbook playbook.yml
+
+cd ..
+
+#uwsgi
+#sudo apt install python3-dev python3-pip gcc # python3-venv -y #errepasatu ea venv beahr den
+sudo apt install uwsgi uwsgi-plugin-python3 -y
+sudo uwsgi uwsgi.ini &
+
 # python3 -m venv venv
 # source venv/bin/activate
+# pip install uwsgi
+# deactivate
 
-#run setup.py install
-
-sudo ctg-gameserver/setup.py install
-
-#NGINX: install and start
+#nginx
 sudo apt install nginx -y
-sudo systemctl start nginx
+sudo mv nginx.conf /etc/nginx/sites-available/ctf_gameserver.conf
+sudo rm /etc/nginx/sites-enabled/default
+sudo ln -s /etc/nginx/sites-available/ctf_gameserver.conf /etc/nginx/sites-enabled/
+sudo systemctl restart nginx
 
-#uWSGI: install
-pip install uwsgi
-
-#Move src to /etc
-sudo mv ctf-gameserver/src/ctf_gameserver /etc
-
-#Install uwsgi
-sudo apt install uwsgi-core -y
-sudo apt install uwsgi-plugin-python3 -y
+#corrections
+#/etc/ctf-gameserver/web/prod_settings.py fitxategian ALLOWED_HOSTS = ['*']

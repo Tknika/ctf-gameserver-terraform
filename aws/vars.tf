@@ -24,6 +24,7 @@ variable "instance_root_block_device_volume_size" {
 variable "team_count"{
     type = number
     description = "how many teams will play"
+    default = 2
 }
 
 variable "aws-gameserver-openvpn-instance-private-key" {
@@ -38,7 +39,7 @@ variable "aws-opnevpn-instance-private-key" {
 
 variable "gameserver-instance-username" {
     description = "gameserver instance username"
-    default     = "ubuntu"
+    default     = "admin"
 }
 
 #Services variables
@@ -46,6 +47,9 @@ variable "gameserver-instance-username" {
 variable "service-instance-username" {
     type        = list
     description = "service instance username"
+    default     = [
+        "ubuntu"
+    ]
 }
 
 #Openvpn variables
@@ -58,6 +62,9 @@ variable "openvpn-instance-username" {
 variable "ovpn-users" {
     type        = list(string)
     description = "vpn access users"
+    default     = [
+        "team"
+    ]
 }
 
 variable "ovpn-config-directory" {
