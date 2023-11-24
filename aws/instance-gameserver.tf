@@ -25,7 +25,7 @@ resource "aws_eip" "gameserver-eip" {
   vpc      = true
 }
 
-resource "null_resource" "gameserver-config2" {
+resource "null_resource" "gameserver-config" {
   depends_on = [
     aws_instance.gameserver,
     aws_eip.gameserver-eip
