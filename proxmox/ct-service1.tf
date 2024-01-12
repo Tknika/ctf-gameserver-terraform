@@ -12,8 +12,8 @@ resource "proxmox_virtual_environment_container" "service1" {
 
     ip_config {
       ipv4 {
-        address = "192.168.${count.index}.1/24"
-        gateway = "192.168.${count.index}.254"
+        address = "10.0.${count.index}.101/24"
+        gateway = "10.0.${count.index}.254"
       }
     }
 
@@ -21,22 +21,24 @@ resource "proxmox_virtual_environment_container" "service1" {
       keys = [
         trimspace(tls_private_key.team-tls-key[count.index].public_key_openssh)
       ]
+      password = random_password.service1_password.result
     }
   }
 
   disk {
       datastore_id = var.pve-vm-ds
+      size         = 40
   }
 
   network_interface {
     name    = "eth0"
-    bridge  = "vmbr100"
-#    vlan_id = "${100+count.index}"
+    bridge  = "vmbr999"
+    vlan_id = "${100+count.index}"
   }
 
   operating_system {
-    template_file_id = proxmox_virtual_environment_file.ubuntu_container_template.id
-    type             = "ubuntu"
+    template_file_id = "local2:vztmpl/debian-12-standard_12.2-1_amd64.tar.zst" #proxmox_virtual_environment_file.debian11_container_template.id
+    type             = "debian"
   }
 
 #  mount_point {
@@ -44,4 +46,15 @@ resource "proxmox_virtual_environment_container" "service1" {
 #    path   = "/shared"
 #  }
 
+}
+
+resource "random_password" "service1_password" {
+  length           = 16
+  override_special = "_%@"
+  special          = true
+}
+
+output "service1-password" {
+  value = random_password.service1_password.result
+  sensitive = true
 }

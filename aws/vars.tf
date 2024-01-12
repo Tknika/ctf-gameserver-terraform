@@ -1,3 +1,5 @@
+# AWS connection variables
+
 variable "aws-region" { 
     default = "us-east-1" 
 }
@@ -21,7 +23,9 @@ variable "instance_root_block_device_volume_size" {
   default     = 8
 }
 
-variable "team_count"{
+# Team count variable
+
+variable "team-count"{
     type = number
     description = "how many teams will play"
     default = 2
@@ -33,13 +37,6 @@ variable "aws-gameserver-openvpn-instance-private-key" {
 
 variable "aws-opnevpn-instance-private-key" {
     default = "output/openvpn-instance-sshkey"
-}
-
-#Gameserver variables
-
-variable "gameserver-instance-username" {
-    description = "gameserver instance username"
-    default     = "admin"
 }
 
 #Services variables
@@ -117,11 +114,27 @@ variable "internet-cidr" {
 
 #Instances private IPs
 
-variable "gameserver-priv-ip" {
-    default = "10.255.254.200"
-}
-
 variable "gameserver-openvpn-priv-ip" {
     default = "10.255.254.100"
 }
 
+#Gameserver variables
+variable "gameserver-instance-username" {}
+variable "gameserver-instance-user-path" {}
+variable "gameserver-priv-ip-CIDR" {}
+variable "gameserver-priv-ip" {}
+# variable "gameserver-priv-gw" {}
+
+##Gameserver-sub variables
+variable "gameserver-sub-instance-username" {}
+variable "gameserver-sub-instance-user-path" {}
+variable "gameserver-sub-priv-ip-CIDR" {}
+variable "gameserver-sub-priv-ip" {}
+# variable "gameserver-sub-priv-gw" {}
+
+#Service1 variables
+variable "service1-instance-username" {}
+variable "service1-instance-user-path" {}
+# variable "service1-priv-ip-CIDR" {}
+# variable "service1-priv-ip" {}
+# variable "service1-priv-gw" {}

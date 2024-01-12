@@ -83,17 +83,17 @@ resource "aws_security_group" "gamezone-allow-web" {
   }
 }
 
-resource "aws_security_group" "team-services-allow-ssh" {
-  name        = "team-allow-ssh"
+resource "aws_security_group" "team-services-allow-all" {
+  name        = "team-allow-all"
   description = "Allow ssh inbound traffic"
 
   vpc_id      = aws_vpc.team-services-vpc.id
 
   ingress {
-    description      = "SSH"
-    from_port        = 22
-    to_port          = 22
-    protocol         = "tcp"
+    description      = "All in"
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
     cidr_blocks      = ["0.0.0.0/0"]
   }
 
@@ -108,3 +108,4 @@ resource "aws_security_group" "team-services-allow-ssh" {
     Name = "team-services-allow-ssh"
   }
 }
+

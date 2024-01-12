@@ -12,7 +12,7 @@ resource "aws_vpc" "team-services-vpc" {
 
 resource "aws_subnet" "team-services-subnet" {
 
-  count = var.team_count
+  count = var.team-count
 
   vpc_id                  = aws_vpc.team-services-vpc.id
   cidr_block              = "${var.team-services-subnet-cidr-init}.${count.index}.0/24"
@@ -29,7 +29,7 @@ resource "aws_route_table" "team-services-rt" {
 	vpc_id = aws_vpc.team-services-vpc.id
 
   route {
-    	cidr_block = var.gamezone-nat-subnet-cidr
+    	cidr_block = var.gamezone-vpc-cidr
     	transit_gateway_id = aws_ec2_transit_gateway.gamezone-services-tgw.id
 	}
 
@@ -45,22 +45,37 @@ resource "aws_route_table" "team-services-rt" {
 
 resource "aws_route_table_association" "team-services-rt-asoc" {
 
-  count = var.team_count
+  count = var.team-count
 
 	subnet_id = aws_subnet.team-services-subnet[count.index].id
 	route_table_id = aws_route_table.team-services-rt.id
  
 }
 
+#Team susbission host interfaces
+
+resource "aws_network_interface" "team-sub-priv-interface" {
+
+  count = var.team-count
+
+  subnet_id   = aws_subnet.team-services-subnet[count.index].id
+  private_ips = ["${var.team-services-subnet-cidr-init}.${count.index}.50"]
+  security_groups = [aws_security_group.team-services-allow-all.id]
+
+  tags = {
+    Name = "team-sub-private-interface${count.index}"
+  }
+}
+
 #Service instance interfaces
 
 resource "aws_network_interface" "service1-priv-interface" {
 
-  count = var.team_count
+  count = var.team-count
 
   subnet_id   = aws_subnet.team-services-subnet[count.index].id
   private_ips = ["${var.team-services-subnet-cidr-init}.${count.index}.101"]
-  security_groups = [aws_security_group.team-services-allow-ssh.id]
+  security_groups = [aws_security_group.team-services-allow-all.id]
 
   tags = {
     Name = "service1-private-interface${count.index}"

@@ -50,7 +50,7 @@ resource "aws_instance" "openvpn-team" {
 
 resource "aws_eip" "openvpn-eip" {
   instance = aws_instance.openvpn-team.id
-  vpc      = true
+  domain   = "vpc"
 }
 
 resource "null_resource" "openvpn-bootstrap" {
@@ -113,7 +113,7 @@ resource "null_resource" "openvpn-download-configurations" {
   depends_on = [null_resource.openvpn-update-users-script,
                 local_file.team-openvpn-instance-private-key-file]
 
-  count = var.team_count
+  count = var.team-count
 
   triggers = {
     ovpn_users = join(" ", var.ovpn-users)

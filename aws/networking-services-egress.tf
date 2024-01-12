@@ -11,7 +11,7 @@ resource "aws_subnet" "services-egress-nat-subnet" {
 
 
 resource "aws_eip" "service-egress-eip" {
-  vpc      = true
+  domain  = "vpc"
 }
 
 resource "aws_internet_gateway" "services-egress-igw" {

@@ -50,7 +50,7 @@ resource "aws_instance" "gameserver-openvpn" {
 
 resource "aws_eip" "gameserver-openvpn-eip" {
   instance = aws_instance.gameserver-openvpn.id
-  vpc      = true
+  domain   = "vpc"
 }
 
 resource "null_resource" "gameserver-openvpn-bootstrap" {

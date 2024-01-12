@@ -1,10 +1,14 @@
 # Terraform
 output
-proxmox/.terraform
-proxmox/.terraform.lock.hcl
-proxmox/terraform.tfvars
+proxmox/output
+proxmox/.terraform*
+proxmox/terraform.tf*
+aws/terraform.tf*
 aws/.terraform*
 aws/output
-aws/secrets
-aws/terraform.tfvars
-aws/terraform.tfstate*
+common/.terraform*
+common/terraform.tf*
+
+*.tfvars
+
+egitekoak

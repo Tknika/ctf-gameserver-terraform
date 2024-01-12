@@ -1,19 +1,19 @@
 #Output folders creation
 
-#resource "null_resource" "output-main-folder" {
-#
-#  provisioner "local-exec" {
-#    command = "mkdir output 2>&1"
-#  }
-#}
+resource "null_resource" "output-main-folder" {
+
+ provisioner "local-exec" {
+   command = "mkdir output 2>&1"
+ }
+}
 
 resource "null_resource" "output-team-folders" {
-#  depends_on = [null_resource.output-main-folder]
+  depends_on = [null_resource.output-main-folder]
 
   count = var.team-count
 
   provisioner "local-exec" {
-    command = "mkdir output\\team${count.index}"
+    command = "mkdir output/team${count.index}"
   }
 }
 
@@ -30,6 +30,8 @@ resource "tls_private_key" "gameserver-tls-key" {
 }
 
 resource "tls_private_key" "team-openvpn-instance-tls-key" {
+  count     = var.team-count
+
   algorithm = "RSA"
   rsa_bits  = 4096
 }
@@ -62,9 +64,11 @@ resource "local_file" "master-private-key-file" {
 resource "local_file" "team-openvpn-instance-private-key-file" {
     depends_on = [null_resource.output-team-folders]
 
+    count    = var.team-count
+
     file_permission = "600"
-    content  = tls_private_key.team-openvpn-instance-tls-key.private_key_openssh
-    filename = "output/openvpn-instance-sshkey"
+    content  = tls_private_key.team-openvpn-instance-tls-key[count.index].private_key_openssh
+    filename = "output/team${var.team-count}/openvpn-instance-sshkey"
 }
 
 resource "local_file" "team-private-key-file" {

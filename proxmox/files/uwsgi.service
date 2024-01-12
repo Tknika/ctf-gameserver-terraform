@@ -1,0 +1,9 @@
+[Unit]
+Description=uWSGI instance to serve ctf_gameserver
+
+[Service]
+ExecStartPre=-/usr/bin/bash -c 'mkdir -p /run/uwsgi; chown user:nginx /run/uwsgi'
+ExecStart=uwsgi --ini /root/uwsgi.ini'
+
+[Install]
+WantedBy=multi-user.target

@@ -22,53 +22,5 @@ resource "aws_instance" "gameserver" {
 
 resource "aws_eip" "gameserver-eip" {
   instance = aws_instance.gameserver.id
-  vpc      = true
-}
-
-resource "null_resource" "gameserver-config" {
-  depends_on = [
-    aws_instance.gameserver,
-    aws_eip.gameserver-eip
-  ]
-
-  connection {
-    type        = "ssh"
-    host        = aws_eip.gameserver-eip.public_ip
-    user        = var.gameserver-instance-username
-    port        = "22"
-    private_key = tls_private_key.gameserver-tls-key.private_key_openssh
-    agent       = false
-  }
-
-  provisioner "file" {
-    source      = "scripts/gameserver-config.sh"
-    destination = "/home/${var.gameserver-instance-username}/gameserver-config.sh"
-  }
-
-  provisioner "file" {
-    source      = "files/gameserver/ctf-gameserver_1.0_all.deb"
-    destination = "/home/${var.gameserver-instance-username}/ctf-gameserver_1.0_all.deb"
-  }
-
-  provisioner "file" {
-    source      = "files/gameserver/playbook.yml"
-    destination = "/home/${var.gameserver-instance-username}/playbook.yml"
-  }
-
-  provisioner "file" {
-    source      = "files/gameserver/uwsgi.ini"
-    destination = "/home/${var.gameserver-instance-username}/uwsgi.ini"
-  }
-
-  provisioner "file" {
-    source      = "files/gameserver/nginx.conf"
-    destination = "/home/${var.gameserver-instance-username}/nginx.conf"
-  }
-
-  # provisioner "remote-exec" {
-  #   inline = [
-  #     "chmod +x /home/${var.gameserver-instance-username}/gameserver-config.sh",
-  #     "sudo /home/${var.gameserver-instance-username}/gameserver-config.sh"
-  #   ]
-  # }
+  domain   = "vpc"
 }

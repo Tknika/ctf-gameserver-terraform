@@ -23,18 +23,26 @@ resource "proxmox_virtual_environment_container" "gameserver" {
     }
   }
 
+  cpu {
+    cores = 2
+  }
+
+  memory {
+    dedicated = 2048
+  }
+
   disk {
       datastore_id = var.pve-vm-ds
   }
 
   network_interface {
     name    = "eth0"
-    bridge  = "vmbr0"
-#    vlan_id = "99"
+    bridge  = "vmbr999"
+    vlan_id = "254"
   }
 
   operating_system {
-    template_file_id = proxmox_virtual_environment_file.debian11_container_template.id
+    template_file_id = "local2:vztmpl/debian-12-standard_12.2-1_amd64.tar.zst" #proxmox_virtual_environment_file.debian11_container_template.id
     type             = "debian"
   }
 
@@ -54,51 +62,4 @@ resource "random_password" "gameserver_password" {
 output "gameserver-password" {
   value = random_password.gameserver_password.result
   sensitive = true
-}
-
-resource "null_resource" "gameserver-config" {
-  depends_on = [
-    proxmox_virtual_environment_container.gameserver
-  ]
-
-  connection {
-    type        = "ssh"
-    host        = var.gameserver-instance-username
-    user        = var.gameserver-priv-ip
-    port        = "22"
-    private_key = tls_private_key.gameserver-tls-key.private_key_openssh
-    agent       = false
-  }
-
-  provisioner "file" {
-    source      = "scripts/gameserver-config.sh"
-    destination = "${var.gameserver-instance-user-path}/gameserver-config.sh"
-  }
-
-  provisioner "file" {
-    source      = "files/gameserver/ctf-gameserver_1.0_all.deb"
-    destination = "${var.gameserver-instance-user-path}/ctf-gameserver_1.0_all.deb"
-  }
-
-  provisioner "file" {
-    source      = "files/gameserver/playbook.yml"
-    destination = "${var.gameserver-instance-user-path}/playbook.yml"
-  }
-
-  provisioner "file" {
-    source      = "files/gameserver/uwsgi.ini"
-    destination = "${var.gameserver-instance-user-path}/uwsgi.ini"
-  }
-
-  provisioner "file" {
-    source      = "files/gameserver/nginx.conf"
-    destination = "${var.gameserver-instance-user-path}/nginx.conf"
-  }
-
-  # provisioner "remote-exec" {
-  #   inline = [
-  #     "chmod +x /home/${var.gameserver-instance-username}/gameserver-config.sh",
-  #     "sudo /home/${var.gameserver-instance-username}/gameserver-config.sh"
-  #   ]
-  # }
 }

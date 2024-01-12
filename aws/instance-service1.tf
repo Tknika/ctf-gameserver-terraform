@@ -1,8 +1,8 @@
 resource "aws_instance" "team-service1" {
-  ami           = "ami-04cbc90abb08f0321"
+  ami           = "ami-058bd2d568351da34"
   instance_type = var.aws-instance-type
 
-  count = var.team_count
+  count = var.team-count
 
   key_name = aws_key_pair.team-ssh-key[count.index].key_name
   
@@ -15,10 +15,3 @@ resource "aws_instance" "team-service1" {
    Name = "Team${count.index}-service1"
  }
 }
-
-# resource "aws_eip" "team-eip" {
-#   count = var.team_count
-
-#   instance = aws_instance.team-service1[count.index].id
-#   vpc      = true
-# }

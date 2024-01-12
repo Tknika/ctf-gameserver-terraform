@@ -1,27 +1,25 @@
 #!/bin/bash
 
+apt install sudo
 sudo apt update && sudo apt upgrade -y
 sudo apt install git ansible -y
 
 git clone https://github.com/fausecteam/ctf-gameserver-ansible.git
 
-mv playbook.yml ctf-gameserver-ansible
+mv playbook.yml ctf-gameserver-ansible/
+mv prod_settings.py.j2 ctf-gameserver-ansible/roles/web/templates -f
 
+#Install Gameserver with ansible
 cd ctf-gameserver-ansible
-
 sudo ansible-playbook playbook.yml
-
 cd ..
 
 #uwsgi
 #sudo apt install python3-dev python3-pip gcc # python3-venv -y #errepasatu ea venv beahr den
 sudo apt install uwsgi uwsgi-plugin-python3 -y
-sudo uwsgi uwsgi.ini &
-
-# python3 -m venv venv
-# source venv/bin/activate
-# pip install uwsgi
-# deactivate
+sudo uwsgi.ini /etc/uwsgi/apps-available/ctf_gameserver.ini
+sudo ln -s /etc/uwsgi/apps-available/ctf_gameserver.ini /etc/uwsgi/apps-enabled/
+sudo systemctl restart uwsgi
 
 #nginx
 sudo apt install nginx -y

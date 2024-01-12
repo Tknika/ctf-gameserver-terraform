@@ -10,7 +10,7 @@ resource "null_resource" "output-main-folder" {
 resource "null_resource" "output-team-folders" {
   depends_on = [null_resource.output-main-folder]
 
-  count = var.team_count
+  count = var.team-count
 
   provisioner "local-exec" {
     command = "mkdir output/team${count.index}"
@@ -45,7 +45,7 @@ resource "tls_private_key" "team-openvpn-instance-tls-key" {
 # }
 
 resource "tls_private_key" "team-tls-key" {
-  count = var.team_count
+  count = var.team-count
 
   algorithm = "RSA"
   rsa_bits  = 4096
@@ -79,7 +79,7 @@ resource "aws_key_pair" "team-openvpn-instance-ssh-key"{
 # }
 
 resource "aws_key_pair" "team-ssh-key"{
-    count = var.team_count
+    count = var.team-count
 
     key_name = "team-ssh-key${count.index}"
     public_key = tls_private_key.team-tls-key[count.index].public_key_openssh
@@ -114,7 +114,7 @@ resource "local_file" "team-openvpn-instance-private-key-file" {
 resource "local_file" "team-private-key-file" {
     depends_on = [null_resource.output-team-folders]
 
-    count = var.team_count
+    count = var.team-count
     
     file_permission = "600"
     content  = tls_private_key.team-tls-key[count.index].private_key_openssh

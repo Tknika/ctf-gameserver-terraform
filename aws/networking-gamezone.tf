@@ -89,7 +89,7 @@ resource "aws_route_table" "gamezone-main-rt" {
 
 resource "aws_route_table_association" "gamezone-team-rt-assoc" {
 
-  count = var.team_count
+  count = var.team-count
 
 	subnet_id = aws_subnet.openvpn-team-subnet.id
 	route_table_id = aws_route_table.gamezone-main-rt.id
@@ -98,7 +98,7 @@ resource "aws_route_table_association" "gamezone-team-rt-assoc" {
 
 resource "aws_route_table_association" "gamezone-gameserver-rt-assoc" {
 
-  count = var.team_count
+  count = var.team-count
 
 	subnet_id = aws_subnet.gameserver-subnet.id
 	route_table_id = aws_route_table.gamezone-main-rt.id
@@ -154,6 +154,22 @@ resource "aws_network_interface" "gameserver-priv-interface" {
 
   subnet_id   = aws_subnet.gameserver-subnet.id
   private_ips = [var.gameserver-priv-ip]
+  security_groups = [
+    aws_security_group.gamezone-allow-ssh.id,
+    aws_security_group.gamezone-allow-web.id
+  ]
+
+  tags = {
+    Name = "gameserver-pri-interface"
+  }
+}
+
+#Gameserver-Submisions instance interfaces
+
+resource "aws_network_interface" "gameserver-sub-priv-interface" {
+
+  subnet_id   = aws_subnet.gameserver-subnet.id
+  private_ips = [var.gameserver-sub-priv-ip]
   security_groups = [
     aws_security_group.gamezone-allow-ssh.id,
     aws_security_group.gamezone-allow-web.id

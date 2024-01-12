@@ -15,6 +15,7 @@ resource "aws_ec2_transit_gateway" "gamezone-services-tgw" {
 resource "aws_ec2_transit_gateway_vpc_attachment" "tgw-att-team-services" {
   depends_on = [ aws_ec2_transit_gateway.gamezone-services-tgw ]
 
+#   subnet_ids         = aws_subnet.team-services-subnet.*.id
   subnet_ids         = [aws_subnet.team-services-subnet[0].id]
   transit_gateway_id = aws_ec2_transit_gateway.gamezone-services-tgw.id
   vpc_id             = aws_vpc.team-services-vpc.id
