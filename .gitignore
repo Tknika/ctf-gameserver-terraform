@@ -1,0 +1,14 @@
+# Terraform
+output
+proxmox/output
+proxmox/.terraform*
+proxmox/terraform.tf*
+aws/terraform.tf*
+aws/.terraform*
+aws/output
+common/.terraform*
+common/terraform.tf*
+
+*.tfvars
+
+egitekoak

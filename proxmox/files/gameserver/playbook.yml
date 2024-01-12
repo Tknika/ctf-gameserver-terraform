@@ -1,0 +1,41 @@
+- hosts: "localhost"
+
+  become: true
+
+  roles:
+
+    - role: db_prolog 
+      vars:
+        ctf_gameserver_db_pass_controller: 'xza'
+        ctf_gameserver_db_pass_web: 'xza'
+        ctf_gameserver_db_pass_checker: 'xza'
+        ctf_gameserver_db_pass_submission: 'xza'
+        ctf_gameserver_db_user_vpnstatus: 'gameserver_vpnstatus'
+        ctf_gameserver_db_pass_vpnstatus: 'xza'
+
+    - role: web
+      vars:
+        ctf_gameserver_downloadpath: '/tmp'
+        ctf_gameserver_web_from_email: 'xzabala@uni.eus'
+        ctf_gameserver_web_secret_key: 'xza'
+        ctf_gameserver_web_admin_email: 'xza'
+        ctf_gameserver_web_admin_pass: 'xza'
+
+    - role: db_epilog
+
+    - role: controller
+      vars:
+        ctf_gameserver_db_pass_controller: 'xza'
+        ctf_gameserver_web_timezone: 'CET'
+        ctf_gameserver_checker_ippattern: '10.0.%d.101'
+
+    - role: submission
+      vars:
+        ctf_gameserver_db_pass_submission: 'xza'
+        ctf_gameserver_flag_secret: 'Z2FyZ2FudHVhDQo='
+
+    - role: checker
+      vars:
+        ctf_gameserver_db_pass_checker: 'xza'
+
+.
