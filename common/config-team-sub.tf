@@ -15,13 +15,13 @@ resource "null_resource" "team-config-sub" {
 
   # Copy service file
   provisioner "file" {
-    source      = "files/submission.service"
+    source      = "files/team-submission/submission.service"
     destination = "/etc/systemd/system/submission.service"
   }
 
   # Copy service executable
   provisioner "file" {
-    source      = "files/ctf-team-submission"
+    source      = "files/team-submission/ctf-team-submission"
     destination = "/usr/bin/ctf-team-submission"
   }
 
@@ -34,7 +34,7 @@ resource "null_resource" "team-config-sub" {
 
   # Copy submission.env
   provisioner "file" {
-    source      = "files/submission.env"
+    source      = "files/team-submission/submission.env"
     destination = "/etc/ctf-team-submission/submission.env"
   }
 
@@ -48,12 +48,14 @@ resource "null_resource" "team-config-sub" {
 
   # Copy submission.py
   provisioner "file" {
-    source      = "files/submission.py"
-    destination = "  /usr/lib/python3/dist-packages/ctfteamsubmission/submission.py"
+    source      = "files/team-submission/submission.py"
+    destination = "/usr/lib/python3/dist-packages/ctfteamsubmission/submission.py"
   }
 
   provisioner "remote-exec" {
     inline = [
+      "apt update",
+      "apt install python3-configargparse -y",
       "chmod +x /usr/bin/ctf-team-submission",
       "systemctl daemon-reload",
       "systemctl enable submission.service",

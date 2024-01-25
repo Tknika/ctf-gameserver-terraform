@@ -8,7 +8,6 @@
       vars:
         ctf_gameserver_submission_listen_host: '10.255.254.210'
         ctf_gameserver_downloadpath: '/tmp'
-        database_host: '10.255.254.200'
         ctf_gameserver_db_pass_submission: 'xza'
         ctf_gameserver_flag_secret: 'Z2FyZ2FudHVhDQo='
 

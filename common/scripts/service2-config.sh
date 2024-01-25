@@ -2,6 +2,6 @@
 
 apt update
 apt install git docker-compose -y
-git clone https://github.com/fausecteam/faustctf-2021-pirate-birthday-planner
-cd faustctf-2021-pirate-birthday-planner/src/
+cd service2
 docker-compose up -d
+cd ..

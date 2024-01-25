@@ -7,15 +7,15 @@ resource "null_resource" "output-main-folder" {
  }
 }
 
-resource "null_resource" "output-team-folders" {
-  depends_on = [null_resource.output-main-folder]
+# resource "null_resource" "output-team-folders" {
+#   depends_on = [null_resource.output-main-folder]
 
-  count = var.team-count
+#   count = var.team-count
 
-  provisioner "local-exec" {
-    command = "mkdir output/team${count.index}"
-  }
-}
+#   provisioner "local-exec" {
+#     command = "mkdir output/team${count.index}"
+#   }
+# }
 
 #Keys
 
@@ -46,7 +46,7 @@ resource "tls_private_key" "team-tls-key" {
 #Save private key to file
 
 resource "local_file" "master-openvpn-instance-private-key-file" {
-    depends_on = [null_resource.output-team-folders]
+    # depends_on = [null_resource.output-team-folders]
 
     file_permission = "600"
     content  = tls_private_key.gameserver-openvpn-instance-tls-key.private_key_openssh
@@ -54,7 +54,7 @@ resource "local_file" "master-openvpn-instance-private-key-file" {
 }
 
 resource "local_file" "master-private-key-file" {
-    depends_on = [null_resource.output-team-folders]
+    # depends_on = [null_resource.output-team-folders]
 
     file_permission = "600"
     content  = tls_private_key.gameserver-tls-key.private_key_openssh
@@ -62,7 +62,7 @@ resource "local_file" "master-private-key-file" {
 }
 
 resource "local_file" "team-openvpn-instance-private-key-file" {
-    depends_on = [null_resource.output-team-folders]
+    # depends_on = [null_resource.output-team-folders]
 
     count    = var.team-count
 
@@ -72,7 +72,7 @@ resource "local_file" "team-openvpn-instance-private-key-file" {
 }
 
 resource "local_file" "team-private-key-file" {
-    depends_on = [null_resource.output-team-folders]
+    # depends_on = [null_resource.output-team-folders]
 
     count = var.team-count
     

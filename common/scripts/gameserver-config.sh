@@ -31,9 +31,12 @@ sudo systemctl restart nginx
 #corrections
 #/etc/ctf-gameserver/web/prod_settings.py fitxategian ALLOWED_HOSTS = ['*']
 
-#checkers
+#Service2 checker
+sudo apt install python3-paramiko
+
+#Global checkers
 sudo mkdir /etc/ctf-gameserver/checker
-sudo mv *.py /usr/lib/python3/dist-packages/ctf_gameserver/checker/
-sudo chmod +x /usr/lib/python3/dist-packages/ctf_gameserver/checker/checker-service*.py
-sudo mv *.env /etc/ctf-gameserver/checker/
+sudo mv checker/service*/*.env /etc/ctf-gameserver/checker/
+sudo mv checker/service*/* /usr/lib/python3/dist-packages/ctf_gameserver/checker/
+sudo chmod +x /usr/lib/python3/dist-packages/ctf_gameserver/checker/service*/*.py
 sudo systemctl restart ctf-checkmaster@*

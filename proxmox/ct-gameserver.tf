@@ -51,6 +51,8 @@ resource "proxmox_virtual_environment_container" "gameserver" {
 #    path   = "/shared"
 #  }
 
+
+
 }
 
 resource "random_password" "gameserver_password" {

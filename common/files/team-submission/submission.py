@@ -3,6 +3,7 @@
 import socket
 import os
 import configargparse
+import time
 
 def main():
 
@@ -21,7 +22,7 @@ def main():
     # Call the read_hot_folder function with the parsed arguments
     while True:
         read_hot_folder(args.path, args.ip, args.port)
-        wait(10)
+        time.sleep(10)
 
     return os.EX_OK
 
