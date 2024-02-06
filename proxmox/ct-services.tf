@@ -36,6 +36,10 @@ resource "proxmox_virtual_environment_container" "services" {
     vlan_id = "${100+count.index}"
   }
 
+  features {
+    nesting = true
+  }
+  
   operating_system {
     template_file_id = "local2:vztmpl/debian-12-standard_12.2-1_amd64.tar.zst" #proxmox_virtual_environment_file.debian11_container_template.id
     type             = "debian"

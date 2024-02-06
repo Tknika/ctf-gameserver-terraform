@@ -32,7 +32,7 @@ sudo systemctl restart nginx
 #/etc/ctf-gameserver/web/prod_settings.py fitxategian ALLOWED_HOSTS = ['*']
 
 #Service2 checker
-sudo apt install python3-paramiko
+sudo apt install python3-paramiko -y
 
 #Global checkers
 sudo mkdir /etc/ctf-gameserver/checker

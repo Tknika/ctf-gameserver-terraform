@@ -1,6 +1,6 @@
 resource "null_resource" "upload-checkers" {
 
-for_each = fileset("files/gameserver/checkers", "*")
+for_each = fileset("files/gameserver/checkers", "**")
 
   connection {
     type        = "ssh"
@@ -13,7 +13,7 @@ for_each = fileset("files/gameserver/checkers", "*")
 
   provisioner "file" {
     source      = "files/gameserver/checkers/${each.value}"
-    destination = "${var.gameserver-instance-user-path}/${each.value}"
+    destination = "${var.gameserver-instance-user-path}/checker/${each.value}"
   }
 
 }

@@ -25,6 +25,10 @@ resource "proxmox_virtual_environment_container" "team-submission" {
     }
   }
 
+  features {
+    nesting = true
+  }
+  
   disk {
       datastore_id = var.pve-vm-ds
       size         = 40

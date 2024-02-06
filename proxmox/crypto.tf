@@ -21,26 +21,26 @@ resource "null_resource" "output-main-folder" {
 
 resource "tls_private_key" "gameserver-openvpn-instance-tls-key" {
   algorithm = "RSA"
-  rsa_bits  = 4096
+  rsa_bits = 2048
 }
 
 resource "tls_private_key" "gameserver-tls-key" {
   algorithm = "RSA"
-  rsa_bits  = 4096
+  rsa_bits = 2048
 }
 
 resource "tls_private_key" "team-openvpn-instance-tls-key" {
   count     = var.team-count
 
   algorithm = "RSA"
-  rsa_bits  = 4096
+  rsa_bits = 2048
 }
 
 resource "tls_private_key" "team-tls-key" {
   count = var.team-count
 
   algorithm = "RSA"
-  rsa_bits  = 4096
+  rsa_bits = 2048
 }
 
 #Save private key to file

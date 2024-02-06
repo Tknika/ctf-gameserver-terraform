@@ -41,6 +41,10 @@ resource "proxmox_virtual_environment_container" "gameserver" {
     vlan_id = "254"
   }
 
+  features {
+    nesting = true
+  }
+
   operating_system {
     template_file_id = "local2:vztmpl/debian-12-standard_12.2-1_amd64.tar.zst" #proxmox_virtual_environment_file.debian11_container_template.id
     type             = "debian"
@@ -50,8 +54,6 @@ resource "proxmox_virtual_environment_container" "gameserver" {
 #    volume = "/mnt/bindmounts/shared"
 #    path   = "/shared"
 #  }
-
-
 
 }
 
