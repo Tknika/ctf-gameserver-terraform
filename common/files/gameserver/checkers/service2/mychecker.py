@@ -77,7 +77,7 @@ class MyChecker(checkerlib.BaseChecker):
 
     # Private Funcs - Return False if error
     def _create_system_user(self, ssh_session, username, password):
-        # Execute the user creation command in the conFLAG_Q1RGLUdDlGFTRVJ8RVYwCJk5eQEKR+H9tainer
+        # Execute the user creation command in the container
         command = f"docker exec service2_web_1 sh -c 'useradd -m {username} && echo {username}:{password} | chpasswd'"
         stdin, stdout, stderr = ssh_session.exec_command(command)
 
@@ -85,6 +85,14 @@ class MyChecker(checkerlib.BaseChecker):
         if stderr.channel.recv_exit_status() != 0:
             return False
 
+        # Execute the file creation command in the container
+        command = f"docker exec service2_web_1 sh -c 'echo {password} > /tmp/{username}.txt'"
+        stdin, stdout, stderr = ssh_session.exec_command(command)
+
+        # Check if the command executed successfully
+        if stderr.channel.recv_exit_status() != 0:
+            return False
+        
         # Return the result
         return {'username': username, 'password': password}
 
