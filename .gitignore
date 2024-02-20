@@ -12,3 +12,5 @@ common/terraform.tf*
 *.tfvars
 
 zuzentzekoak
+
+common/files/services

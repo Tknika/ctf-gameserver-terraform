@@ -7,6 +7,10 @@ resource "proxmox_virtual_environment_container" "services" {
 
   vm_id     = 1000 + count.index
 
+  memory {
+    dedicated = 1024
+  }
+
   initialization {
     hostname = "team${count.index}-services"
 
