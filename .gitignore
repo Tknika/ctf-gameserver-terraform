@@ -11,4 +11,6 @@ common/terraform.tf*
 
 *.tfvars
 
-egitekoak
+zuzentzekoak
+
+common/files/services

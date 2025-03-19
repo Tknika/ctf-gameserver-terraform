@@ -17,16 +17,6 @@ variable "aws-opnevpn-instance-private-key" {
     default = "output/openvpn-instance-sshkey"
 }
 
-#Services variables
-
-variable "service-instance-username" {
-    type        = list
-    description = "service instance username"
-    default     = [
-        "ubuntu"
-    ]
-}
-
 #Openvpn variables
 
 variable "openvpn-instance-username" {
@@ -110,9 +100,9 @@ variable "gameserver-sub-priv-ip-CIDR" {}
 variable "gameserver-sub-priv-ip" {}
 variable "gameserver-sub-priv-gw" {}
 
-#Service1 variables
-variable "service1-instance-username" {}
-variable "service1-instance-user-path" {}
+#Service variables
+variable "service-instance-username" {}
+variable "service-instance-user-path" {}
 # variable "service1-priv-ip-CIDR" {}
 # variable "service1-priv-ip" {}
 # variable "service1-priv-gw" {}

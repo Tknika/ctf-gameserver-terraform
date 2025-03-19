@@ -1,4 +1,4 @@
-resource "proxmox_virtual_environment_container" "service1" {
+resource "proxmox_virtual_environment_container" "services" {
   description = "Managed by Terraform"
 
   node_name = var.pve-node
@@ -7,8 +7,12 @@ resource "proxmox_virtual_environment_container" "service1" {
 
   vm_id     = 1000 + count.index
 
+  memory {
+    dedicated = 1024
+  }
+
   initialization {
-    hostname = "team${count.index}-service1"
+    hostname = "team${count.index}-services"
 
     ip_config {
       ipv4 {
@@ -21,7 +25,7 @@ resource "proxmox_virtual_environment_container" "service1" {
       keys = [
         trimspace(tls_private_key.team-tls-key[count.index].public_key_openssh)
       ]
-      password = random_password.service1_password.result
+      password = random_password.services_password.result
     }
   }
 
@@ -36,6 +40,10 @@ resource "proxmox_virtual_environment_container" "service1" {
     vlan_id = "${100+count.index}"
   }
 
+  features {
+    nesting = true
+  }
+  
   operating_system {
     template_file_id = "local2:vztmpl/debian-12-standard_12.2-1_amd64.tar.zst" #proxmox_virtual_environment_file.debian11_container_template.id
     type             = "debian"
@@ -48,13 +56,13 @@ resource "proxmox_virtual_environment_container" "service1" {
 
 }
 
-resource "random_password" "service1_password" {
+resource "random_password" "services_password" {
   length           = 16
   override_special = "_%@"
   special          = true
 }
 
-output "service1-password" {
-  value = random_password.service1_password.result
+output "services-password" {
+  value = random_password.services_password.result
   sensitive = true
 }

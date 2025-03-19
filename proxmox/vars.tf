@@ -34,8 +34,8 @@ variable "openvpn-install-script-location" {}
 variable "ovpn-users" {}
 
 #Service1 variables
-variable "service1-instance-username" {}
-variable "service1-instance-user-path" {}
-variable "service1-priv-ip-CIDR" {}
-variable "service1-priv-ip" {}
-variable "service1-priv-gw" {}
+variable "service-instance-username" {}
+variable "service-instance-user-path" {}
+variable "service-priv-ip-CIDR" {}
+variable "service-priv-ip" {}
+variable "service-priv-gw" {}

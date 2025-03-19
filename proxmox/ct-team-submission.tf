@@ -8,7 +8,7 @@ resource "proxmox_virtual_environment_container" "team-submission" {
   vm_id     = 1500 + count.index
 
   initialization {
-    hostname = "team${count.index}-openvpn"
+    hostname = "team${count.index}-submission"
 
     ip_config {
       ipv4 {
@@ -25,6 +25,10 @@ resource "proxmox_virtual_environment_container" "team-submission" {
     }
   }
 
+  features {
+    nesting = true
+  }
+  
   disk {
       datastore_id = var.pve-vm-ds
       size         = 40
